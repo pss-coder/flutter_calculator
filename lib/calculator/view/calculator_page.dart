@@ -7,6 +7,7 @@ class CalculatorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: IS THERE A BETTER WAY??
     final List<String> buttons = [
       'C',
       '+/-',
@@ -63,10 +64,10 @@ class _CalculatorViewState extends State<CalculatorView> {
                 Expanded(
                   child: Container(
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(15),
                             alignment: Alignment.centerRight,
                             child:
                                 Text(state.number), // see what user press
@@ -75,8 +76,15 @@ class _CalculatorViewState extends State<CalculatorView> {
                             //TODO: HERE IS WHERE WE PLACE THE STATE DISPLAY, RESULTS AND ERROR
                             padding: const EdgeInsets.all(15),
                             alignment: Alignment.centerRight,
-                            child: Text(state.result ?? ''),
-                          )
+                            child: Text(
+                              state.result ?? '', 
+                              style: const TextStyle(
+                                fontSize: 50.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                              ),
+                          ),
+                          const Divider(color: Colors.black, thickness: 0.5),
                         ]),
                   ),
                 ),
@@ -99,7 +107,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                                   .add(const CalculatorClearPressed()); // TODO: IMPLEMENTATION
                               },
                               buttonText: widget.buttons[index],
-                              color: Colors.blue[50],
+                              // color: Colors.blue[50],
                               textColor: Colors.black,
                             );
                           }
@@ -108,7 +116,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                           else if (index == 1) {
                             return MyButton(
                               buttonText: widget.buttons[index],
-                              color: Colors.blue[50],
+                              // color: Colors.blue[50],
                               textColor: Colors.black,
                             );
                           }
@@ -117,7 +125,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                             return MyButton(
                               buttontapped: () {},
                               buttonText: widget.buttons[index],
-                              color: Colors.blue[50],
+                              // color: Colors.blue[50],
                               textColor: Colors.black,
                             );
                           }
@@ -127,10 +135,10 @@ class _CalculatorViewState extends State<CalculatorView> {
                               buttontapped: () {
                                 context
                                   .read<CalculatorBloc>()
-                                  .add(CalculatorNumberDeleted());
+                                  .add(const CalculatorNumberDeleted());
                               },
                               buttonText: widget.buttons[index],
-                              color: Colors.blue[50],
+                              // color: Colors.blue[50],
                               textColor: Colors.black,
                             );
                           }
@@ -141,7 +149,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                               buttontapped: () {
                                  context
                                   .read<CalculatorBloc>()
-                                  .add(CalculatorEqualPressed());
+                                  .add(const CalculatorEqualPressed());
                               },
                               buttonText: widget.buttons[index],
                               color: Colors.orange[700],
@@ -160,6 +168,8 @@ class _CalculatorViewState extends State<CalculatorView> {
                                   .add(CalculatorNumberPressed(number: widget.buttons[index]));
                               },
                               buttonText: widget.buttons[index],
+                              color: Colors.transparent,
+                              textColor: Colors.black,
                             );
                           }
                         }),
@@ -192,19 +202,21 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: buttontapped,
       child: Padding(
-        padding: const EdgeInsets.all(0.2),
-        child: ClipRRect(
-          // borderRadius: BorderRadius.circular(25),
-          child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          // color: color,
+          decoration: BoxDecoration(
             color: color,
-            child: Center(
-              child: Text(
-                buttonText,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
+            shape: BoxShape.circle,
+            border: color == Colors.transparent ? Border.all(color: Colors.grey) : Border.all(color: Colors.transparent)
+          ),
+          child: Center(
+            child: Text(
+              buttonText,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
